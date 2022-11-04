@@ -1,0 +1,44 @@
+using System;
+
+namespace ConsoleApp7
+{
+    class Program
+    {
+        static void ShowWindow(int kx, int ky, int szelesseg, int magassag,
+      bool vanKeret, ConsoleColor szin)
+        {
+            Console.ForegroundColor = szin;
+            for (int aktSorIndexe = ky; aktSorIndexe < ky + magassag; aktSorIndexe++)
+            {
+                for (int aktOszlopIndexe = kx; aktOszlopIndexe < kx + szelesseg; aktOszlopIndexe++)
+                {
+                    Console.SetCursorPosition(aktOszlopIndexe, aktSorIndexe);
+                    if (vanKeret)
+                    {
+                        if (aktOszlopIndexe == kx || aktOszlopIndexe == kx + szelesseg - 1
+                            || aktSorIndexe == ky || aktSorIndexe == ky + magassag - 1)
+                        {
+                            Console.ForegroundColor = ConsoleColor.Blue;
+                        }
+                        else
+                        {
+                            Console.ForegroundColor = szin;
+                        }
+                    }
+                    Console.Write('█');
+                }
+            }
+        }
+
+        static void Flag(ConsoleColor felso, ConsoleColor kozepso, ConsoleColor also)
+        {
+            ShowWindow(10, 14, 20, 20, false, felso);
+            ShowWindow(10, 12, 20, 20, false, kozepso);
+            ShowWindow(20, 15, 20, 20, false, also);
+        }
+        static void Main(string[] args)
+        {
+            Flag(ConsoleColor.Red, ConsoleColor.White, ConsoleColor.Green);
+        }
+    }
+}
