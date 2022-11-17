@@ -1,44 +1,96 @@
 using System;
 
-namespace ConsoleApp7
+namespace ConsoleApp8
 {
     class Program
     {
-        static void ShowWindow(int kx, int ky, int szelesseg, int magassag,
-      bool vanKeret, ConsoleColor szin)
-        {
-            Console.ForegroundColor = szin;
-            for (int aktSorIndexe = ky; aktSorIndexe < ky + magassag; aktSorIndexe++)
-            {
-                for (int aktOszlopIndexe = kx; aktOszlopIndexe < kx + szelesseg; aktOszlopIndexe++)
-                {
-                    Console.SetCursorPosition(aktOszlopIndexe, aktSorIndexe);
-                    if (vanKeret)
-                    {
-                        if (aktOszlopIndexe == kx || aktOszlopIndexe == kx + szelesseg - 1
-                            || aktSorIndexe == ky || aktSorIndexe == ky + magassag - 1)
-                        {
-                            Console.ForegroundColor = ConsoleColor.Blue;
-                        }
-                        else
-                        {
-                            Console.ForegroundColor = szin;
-                        }
-                    }
-                    Console.Write('█');
-                }
-            }
-        }
-
-        static void Flag(ConsoleColor felso, ConsoleColor kozepso, ConsoleColor also)
-        {
-            ShowWindow(10, 14, 20, 20, false, felso);
-            ShowWindow(10, 12, 20, 20, false, kozepso);
-            ShowWindow(20, 15, 20, 20, false, also);
-        }
         static void Main(string[] args)
         {
-            Flag(ConsoleColor.Red, ConsoleColor.White, ConsoleColor.Green);
+            int osszertek = 0;
+            int[,] szamok = { { 1, -2, 3, 4, 5 },
+                               { 9, 8, 7, 6, -3 },
+                               { 12, 13, 15, 17, 18 },
+                               { 98, 76, 54, 32, 21 }};
+
+            // 1) Hány negatív érték van a mátrixban?
+            int szamlalo = 0;
+            int elsoOsszeg = 0;
+            int utolsoOsszeg = 0;
+            int oszthato = 0;
+            int index = 0;
+            for (int sorokSzama = 0; sorokSzama < szamok.GetLength(0); sorokSzama++)
+            {
+                for (int oszlopokSzama = 0; oszlopokSzama < szamok.GetLength(1); oszlopokSzama++)
+                {
+
+                    if (szamok[sorokSzama, oszlopokSzama] < 0)
+                    {
+                        szamlalo += 1;
+                    }
+                    else if (sorokSzama == 2)
+                    {
+                        if (oszlopokSzama == 0 || oszlopokSzama == 1 || oszlopokSzama == 2 || oszlopokSzama == 3 || oszlopokSzama == 4)
+                        {
+                            osszertek += szamok[sorokSzama, oszlopokSzama];
+                        }
+                    }
+
+
+                    if (oszlopokSzama == 0)
+                    {
+                        elsoOsszeg += szamok[sorokSzama, oszlopokSzama];
+                    }
+                    if (oszlopokSzama == 4)
+                    {
+                        utolsoOsszeg += szamok[sorokSzama, oszlopokSzama];
+                    }
+                   
+                }
+
+            }
+            for (int sorokSzama = 0; sorokSzama < szamok.GetLength(0); sorokSzama++)
+            {
+                for (int oszlopokSzama = 0; oszlopokSzama < szamok.GetLength(1); oszlopokSzama++)
+                {
+                    if (szamok[sorokSzama, oszlopokSzama] % 3 == 0)
+                    {
+                        oszthato += 1;
+                    }
+                }
+            }
+            
+
+
+            int[] tomb = new int[oszthato];
+            for (int sorokSzama = 0; sorokSzama < szamok.GetLength(0); sorokSzama++)
+            {
+                for (int oszlopokSzama = 0; oszlopokSzama < szamok.GetLength(1); oszlopokSzama++)
+                {
+                    if (szamok[sorokSzama, oszlopokSzama] % 3 == 0)
+                    {
+                        tomb[index] = szamok[sorokSzama, oszlopokSzama];
+                        index++;
+                    }
+                    
+                }
+            }
+            Console.WriteLine($"{szamlalo}db negatív szám található. ");
+            // 2) Mennyi a 3. sorban szereplő számok összértéke?
+            Console.WriteLine(osszertek);
+            // 3) Az első oszlopban vagy az utolsó oszlopban lévő számok összege a nagyobb?
+            if (elsoOsszeg > utolsoOsszeg)
+            {
+                Console.WriteLine("Az első oszlopban lévő számok értéke nagyobb");
+            }
+            else
+            {
+                Console.WriteLine("Az utolsó oszlopban lévő számok értéke nagyobb");
+            }
+            // 4) A 3-mal osztható számokat helyezze egy új int[] osztható névvel rendelkező tömbbe!
+            Console.WriteLine(String.Join(';', tomb));
+
         }
+
+        
     }
 }
